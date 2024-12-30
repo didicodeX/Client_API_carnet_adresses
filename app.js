@@ -18,15 +18,27 @@ const updateNavbar = async () => {
 
     if (response.ok) {
       const user = await response.json();
-      linkLogin.style.display = "none";
-      linkRegister.style.display = "none";
-      linkLogout.style.display = "block";
-      displayUserProfile(user); // Affiche les infos utilisateur
+      // Utilisateur connecté, affiche la navbar correspondante
+      showNavbarState(true, user);
     } else {
-      throw new Error("Non connecté");
+      // Non connecté (ex. token expiré), on bascule en mode déconnecté
+      showNavbarState(false);
     }
   } catch (err) {
-    console.log("Utilisateur non connecté :", err.message);
+    console.error("Erreur lors de la récupération du profil utilisateur :", err.message);
+    // En cas d'erreur réseau ou autre, on affiche la navbar déconnectée
+    showNavbarState(false);
+  }
+};
+
+// Fonction dédiée à la gestion de l'affichage
+const showNavbarState = (isLoggedIn, user = null) => {
+  if (isLoggedIn) {
+    linkLogin.style.display = "none";
+    linkRegister.style.display = "none";
+    linkLogout.style.display = "block";
+    displayUserProfile(user); // Affiche les infos utilisateur
+  } else {
     linkLogin.style.display = "block";
     linkRegister.style.display = "block";
     linkLogout.style.display = "none";
