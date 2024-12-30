@@ -4,7 +4,7 @@ const linkLogin = document.getElementById("link-login");
 const linkRegister = document.getElementById("link-register");
 const linkLogout = document.getElementById("link-logout");
 const content = document.getElementById("content");
-
+console.log(document.cookie);
 let accessToken = null;
 let refreshToken = null;
 
@@ -142,11 +142,13 @@ const showLoginForm = () => {
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
+      console.log(data);
       if (response.ok) {
         accessToken = data.accessToken;
         refreshToken = data.refreshToken;
         alert("Connexion réussie ");
         updateNavbar();
+        console.log(document.cookie);
         content.innerHTML = "<h2>Bienvenue, vous êtes connecté !</h2>";
       } else {
         alert(`Erreur: ${data.message}`);
