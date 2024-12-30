@@ -1,4 +1,4 @@
-const BASE_URL = "https://carnet-adresses-50e2ff3ffe95.herokuapp.com"; // Mets à jour si nécessaire
+const BASE_URL = "https://carnet-adresses-50e2ff3ffe95.herokuapp.com" || "http://127.0.0.1:5500"; // Mets à jour si nécessaire
 
 const linkLogin = document.getElementById("link-login");
 const linkRegister = document.getElementById("link-register");
@@ -9,18 +9,31 @@ let accessToken = null;
 let refreshToken = null;
 
 // Affiche ou cache les liens selon l'état d'authentification
-const updateNavbar = () => {
-  if (accessToken) {
-    linkLogin.style.display = "none";
-    linkRegister.style.display = "none";
-    linkLogout.style.display = "block";
-    fetchUserProfile(); // Récupérer le profil de l'utilisateur
-  } else {
+const updateNavbar = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/users/me`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (response.ok) {
+      const user = await response.json();
+      linkLogin.style.display = "none";
+      linkRegister.style.display = "none";
+      linkLogout.style.display = "block";
+      displayUserProfile(user); // Affiche les infos utilisateur
+    } else {
+      throw new Error("Non connecté");
+    }
+  } catch (err) {
+    console.log("Utilisateur non connecté :", err.message);
     linkLogin.style.display = "block";
     linkRegister.style.display = "block";
     linkLogout.style.display = "none";
+    content.innerHTML = "<h2>Veuillez vous connecter ou vous inscrire.</h2>";
   }
 };
+
 
 // Appelle la route `/me` pour récupérer le profil utilisateur
 const fetchUserProfile = async () => {
@@ -55,14 +68,16 @@ const fetchContacts = async () => {
     if (response.ok) {
       displayContacts(data);
     } else {
-      console.error("Erreur lors de la récupération des contacts :", data.message);
+      console.error(
+        "Erreur lors de la récupération des contacts :",
+        data.message
+      );
       alert(`Erreur : ${data.message}`);
     }
   } catch (err) {
     console.error("Erreur de connexion au serveur :", err.message);
   }
 };
-
 
 // Affiche les contacts dans le contenu principal
 const displayContacts = (contacts) => {
@@ -192,7 +207,6 @@ linkLogout.addEventListener("click", async () => {
     console.error("Erreur de déconnexion :", err.message);
   }
 });
-
 
 // Afficher les formulaires en fonction des clics
 linkLogin.addEventListener("click", (e) => {
