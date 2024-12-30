@@ -131,7 +131,7 @@ const showLoginForm = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        accessToken = data.token;
+        accessToken = data.accessToken;
         refreshToken = data.refreshToken;
         alert("Connexion réussie ");
         updateNavbar();
