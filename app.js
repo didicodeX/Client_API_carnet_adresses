@@ -1,4 +1,5 @@
-const BASE_URL = "https://carnet-adresses-50e2ff3ffe95.herokuapp.com" || "http://127.0.0.1:5500"; // Mets à jour si nécessaire
+const BASE_URL = "https://carnet-adresses-50e2ff3ffe95.herokuapp.com/"
+// Mets à jour si nécessaire
 
 const linkLogin = document.getElementById("link-login");
 const linkRegister = document.getElementById("link-register");
