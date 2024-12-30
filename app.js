@@ -27,18 +27,17 @@ const fetchUserProfile = async () => {
   try {
     const response = await fetch(`${BASE_URL}/api/users/me`, {
       method: "GET",
-      headers: { Authorization: `Bearer ${accessToken}` }, // Token d'accès
+      credentials: "include", // Indique d'inclure les cookies dans la requête
     });
 
-    const data = await response.json();
-    if (response.ok) {
-      displayUserProfile(data); // Affiche les informations du profil
-      fetchContacts(); // Récupère les contacts de l'utilisateur
-
-    } else {
-      console.error("Erreur lors de la récupération du profil :", data.message);
-      alert(`Erreur : ${data.message}`);
+    if (!response.ok) {
+      await handleTokenExpiration(response); // Gère les erreurs
+      return;
     }
+
+    const data = await response.json();
+    displayUserProfile(data);
+    fetchContacts();
   } catch (err) {
     console.error("Erreur de connexion au serveur :", err.message);
   }
@@ -49,23 +48,21 @@ const fetchContacts = async () => {
   try {
     const response = await fetch(`${BASE_URL}/api/contacts`, {
       method: "GET",
-      headers: { Authorization: `Bearer ${accessToken}` }, // Token d'accès
+      credentials: "include", // Inclus les cookies dans la requête
     });
 
     const data = await response.json();
     if (response.ok) {
-      displayContacts(data); // Affiche les contacts
+      displayContacts(data);
     } else {
-      console.error(
-        "Erreur lors de la récupération des contacts :",
-        data.message
-      );
+      console.error("Erreur lors de la récupération des contacts :", data.message);
       alert(`Erreur : ${data.message}`);
     }
   } catch (err) {
     console.error("Erreur de connexion au serveur :", err.message);
   }
 };
+
 
 // Affiche les contacts dans le contenu principal
 const displayContacts = (contacts) => {
@@ -121,9 +118,9 @@ const showLoginForm = () => {
       if (response.ok) {
         accessToken = data.token;
         refreshToken = data.refreshToken;
-        alert("Connexion réussie !");
+        alert("Connexion réussie ");
         updateNavbar();
-        content.innerHTML = "<h2>Bienvenue, vous êtes connecté !</h2>";
+        content.innerHTML = "<h2>Bienvenue, vous êtes connecté !</h2>";
       } else {
         alert(`Erreur: ${data.message}`);
       }
@@ -175,13 +172,27 @@ const showRegisterForm = () => {
 };
 
 // Gestion de la déconnexion
-linkLogout.addEventListener("click", () => {
-  accessToken = null;
-  refreshToken = null;
-  alert("Déconnexion réussie !");
-  updateNavbar();
-  content.innerHTML = "<h2>Vous êtes déconnecté.</h2>";
+linkLogout.addEventListener("click", async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/users/logout`, {
+      method: "POST",
+      credentials: "include", // Assure-toi d'envoyer les cookies
+    });
+
+    if (response.ok) {
+      alert("Déconnexion réussie !");
+      accessToken = null;
+      refreshToken = null;
+      updateNavbar();
+      content.innerHTML = "<h2>Vous êtes déconnecté.</h2>";
+    } else {
+      console.error("Erreur lors de la déconnexion :", response.statusText);
+    }
+  } catch (err) {
+    console.error("Erreur de déconnexion :", err.message);
+  }
 });
+
 
 // Afficher les formulaires en fonction des clics
 linkLogin.addEventListener("click", (e) => {
@@ -196,3 +207,14 @@ linkRegister.addEventListener("click", (e) => {
 
 // Initialisation de la barre de navigation
 updateNavbar();
+
+// Gestion de l'expiration du token
+const handleTokenExpiration = async (response) => {
+  if (response.status === 401 || response.status === 403) {
+    alert("Votre session a expiré. Veuillez vous reconnecter.");
+    accessToken = null;
+    refreshToken = null;
+    updateNavbar(); // Met à jour la navigation
+    showLoginForm(); // Affiche le formulaire de connexion
+  }
+};
