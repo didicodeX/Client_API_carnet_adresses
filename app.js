@@ -63,7 +63,6 @@ const fetchUserProfile = async () => {
 
     const data = await response.json();
     displayUserProfile(data);
-    fetchContacts();
   } catch (err) {
     console.error("Erreur de connexion au serveur :", err.message);
   }
@@ -109,12 +108,12 @@ const displayUserProfile = (user) => {
     <h2>Bienvenue, ${user.name} !</h2>
     <p>Email : ${user.email}</p>
     <p>ID : ${user._id}</p>
-    <button id="refresh-profile">Rafraîchir le profil</button>
+    // <button id="refresh-profile">Rafraîchir le profil</button>
   `;
 
   // Bouton pour rafraîchir le profil
-  const refreshButton = document.getElementById("refresh-profile");
-  refreshButton.addEventListener("click", fetchUserProfile);
+  // const refreshButton = document.getElementById("refresh-profile");
+  // refreshButton.addEventListener("click", fetchUserProfile);
 };
 
 // Formulaire de connexion
@@ -151,6 +150,7 @@ const showLoginForm = () => {
         alert("Connexion réussie ");
         updateNavbar();
         fetchUserProfile();
+        fetchContacts();
         console.log(document.cookie);
         content.innerHTML = "<h2>Bienvenue, vous êtes connecté !</h2>";
       } else {
