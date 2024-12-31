@@ -213,8 +213,6 @@ linkLogout.addEventListener("click", async () => {
 
     if (response.ok) {
       alert("Déconnexion réussie !");
-      accessToken = null;
-      refreshToken = null;
       updateNavbar();
       content.innerHTML = "<h2>Vous êtes déconnecté.</h2>";
     } else {
