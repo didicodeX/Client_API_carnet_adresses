@@ -208,20 +208,18 @@ linkLogout.addEventListener("click", async () => {
   try {
     const response = await fetch(`${BASE_URL}/api/users/logout`, {
       method: "POST",
-      credentials: "include", // Assure-toi d'envoyer les cookies
+      credentials: "include", // Inclus les cookies dans la requête
     });
 
     if (response.ok) {
-      alert("Déconnexion réussie !");
-      accessToken = null;
-      refreshToken = null;
-      updateNavbar();
-      content.innerHTML = "<h2>Vous êtes déconnecté.</h2>";
+      alert("Déconnexion réussie !");
     } else {
-      console.error("Erreur lors de la déconnexion :", response.statusText);
+      const data = await response.json();
+      console.error("Erreur lors de la déconnexion :", data.message);
+      alert(`Erreur : ${data.message}`);
     }
   } catch (err) {
-    console.error("Erreur de déconnexion :", err.message);
+    console.error("Erreur de connexion au serveur :", err.message);
   }
 });
 
