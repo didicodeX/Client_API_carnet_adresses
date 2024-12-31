@@ -88,7 +88,7 @@ const fetchContacts = async () => {
     }
   } catch (err) {
     console.error("Erreur de connexion au serveur :", err.message);
-    content.innerHTML += "<h2>Erreur de connexion au serveur.</h2>";
+    content.innerHTML = "<h2>Erreur de connexion au serveur.</h2>";
   }
 };
 
@@ -105,7 +105,7 @@ const displayContacts = (contacts) => {
 
 // Affiche le profil utilisateur dans le contenu principal
 const displayUserProfile = (user) => {
-  content.innerHTML += `
+  content.innerHTML = `
     <h2>Bienvenue, ${user.name} !</h2>
     <p>Email : ${user.email}</p>
     <p>ID : ${user._id}</p>
