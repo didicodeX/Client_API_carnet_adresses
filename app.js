@@ -71,7 +71,6 @@ const fetchUserProfile = async () => {
 
 // Appelle la route `/contacts` pour récupérer les contacts de l'utilisateur
 const fetchContacts = async () => {
-  content.innerHTML = "<h2>Chargement des contacts...</h2>";
   try {
     const response = await fetch(`${BASE_URL}/api/contacts`, {
       method: "GET",
@@ -89,7 +88,7 @@ const fetchContacts = async () => {
     }
   } catch (err) {
     console.error("Erreur de connexion au serveur :", err.message);
-    content.innerHTML = "<h2>Erreur de connexion au serveur.</h2>";
+    content.innerHTML += "<h2>Erreur de connexion au serveur.</h2>";
   }
 };
 
@@ -106,17 +105,17 @@ const displayContacts = (contacts) => {
 
 // Affiche le profil utilisateur dans le contenu principal
 const displayUserProfile = (user) => {
-  content.innerHTML = `
-    <h2>Bienvenue, ${user.name} !</h2>
+  content.innerHTML += `
+    <h2>Bienvenue, ${user.name} !</h2>
     <p>Email : ${user.email}</p>
     <p>ID : ${user._id}</p>
     <button id="refresh-profile">Rafraîchir le profil</button>
   `;
 
-  // Bouton pour rafraîchir le profil
-  const refreshButton = document.getElementById("refresh-profile");
-  refreshButton.addEventListener("click", fetchUserProfile);
 };
+// Bouton pour rafraîchir le profil
+const refreshButton = document.getElementById("refresh-profile");
+refreshButton.addEventListener("click", fetchUserProfile);
 
 // Formulaire de connexion
 const showLoginForm = () => {
@@ -151,6 +150,7 @@ const showLoginForm = () => {
         refreshToken = data.refreshToken;
         alert("Connexion réussie ");
         updateNavbar();
+        fetchUserProfile();
         console.log(document.cookie);
         content.innerHTML = "<h2>Bienvenue, vous êtes connecté !</h2>";
       } else {
