@@ -71,28 +71,28 @@ const fetchUserProfile = async () => {
 
 // Appelle la route `/contacts` pour récupérer les contacts de l'utilisateur
 const fetchContacts = async () => {
+  content.innerHTML = "<h2>Chargement des contacts...</h2>";
   try {
     const response = await fetch(`${BASE_URL}/api/contacts`, {
       method: "GET",
-      credentials: "include", // Inclus les cookies dans la requête
+      credentials: "include",
     });
 
     const data = await response.json();
     if (response.ok) {
-      displayContacts(data);
+      console.log(data.message); // Message de succès
+      displayContacts(data.data); // Accès direct à `data.data`
     } else {
-      console.error(
-        "Erreur lors de la récupération des contacts :",
-        data.message
-      );
+      console.error("Erreur lors de la récupération des contacts :", data.message);
       alert(`Erreur : ${data.message}`);
+      content.innerHTML = "<h2>Aucun contact trouvé.</h2>";
     }
   } catch (err) {
     console.error("Erreur de connexion au serveur :", err.message);
+    content.innerHTML = "<h2>Erreur de connexion au serveur.</h2>";
   }
 };
 
-// Affiche les contacts dans le contenu principal
 const displayContacts = (contacts) => {
   let contactList = "<h2>Vos contacts</h2>";
   contactList += "<ul>";
@@ -100,8 +100,9 @@ const displayContacts = (contacts) => {
     contactList += `<li>${contact.name} (${contact.phone})</li>`;
   });
   contactList += "</ul>";
-  content.innerHTML += contactList;
+  content.innerHTML = contactList; // Remplace complètement le contenu
 };
+
 
 // Affiche le profil utilisateur dans le contenu principal
 const displayUserProfile = (user) => {
