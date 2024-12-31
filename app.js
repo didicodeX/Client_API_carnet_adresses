@@ -100,7 +100,7 @@ const displayContacts = (contacts) => {
     contactList += `<li>${contact.name} (${contact.phone})</li>`;
   });
   contactList += "</ul>";
-  content.innerHTML = contactList; // Remplace complètement le contenu
+  content.innerHTML += contactList; // Ajoute les contacts à la page
 };
 
 
