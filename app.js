@@ -204,6 +204,7 @@ const showRegisterForm = () => {
 };
 
 // Gestion de la déconnexion
+// Gestion de la déconnexion
 linkLogout.addEventListener("click", async () => {
   try {
     const response = await fetch(`${BASE_URL}/api/users/logout`, {
@@ -212,8 +213,11 @@ linkLogout.addEventListener("click", async () => {
     });
 
     if (response.ok) {
+      // Clear tokens on successful logout
+      accessToken = null;
+      refreshToken = null;
       alert("Déconnexion réussie !");
-      updateNavbar();
+      updateNavbar(); // Update the navbar state
       content.innerHTML = "<h2>Vous êtes déconnecté.</h2>";
     } else {
       const data = await response.json();
