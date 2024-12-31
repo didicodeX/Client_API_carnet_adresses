@@ -39,6 +39,7 @@ const showNavbarState = (isLoggedIn, user = null) => {
     linkRegister.style.display = "none";
     linkLogout.style.display = "block";
     displayUserProfile(user); // Affiche les infos utilisateur
+    fetchContacts();
   } else {
     linkLogin.style.display = "block";
     linkRegister.style.display = "block";
