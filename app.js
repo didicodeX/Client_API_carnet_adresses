@@ -112,10 +112,10 @@ const displayUserProfile = (user) => {
     <button id="refresh-profile">Rafraîchir le profil</button>
   `;
 
+  // Bouton pour rafraîchir le profil
+  const refreshButton = document.getElementById("refresh-profile");
+  refreshButton.addEventListener("click", fetchUserProfile);
 };
-// Bouton pour rafraîchir le profil
-const refreshButton = document.getElementById("refresh-profile");
-refreshButton.addEventListener("click", fetchUserProfile);
 
 // Formulaire de connexion
 const showLoginForm = () => {
