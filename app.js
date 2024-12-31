@@ -217,7 +217,7 @@ linkLogout.addEventListener("click", async () => {
       accessToken = null;
       refreshToken = null;
       alert("Déconnexion réussie !");
-      updateNavbar(); // Update the navbar state
+      showNavbarState(false); // Forcer l'état de déconnexion
       content.innerHTML = "<h2>Vous êtes déconnecté.</h2>";
     } else {
       const data = await response.json();
