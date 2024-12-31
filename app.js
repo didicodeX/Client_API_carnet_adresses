@@ -98,7 +98,7 @@ const displayContacts = (contacts) => {
     contactList += `<li>${contact.name} (${contact.phone})</li>`;
   });
   contactList += "</ul>";
-  content.innerHTML += contactList; // Ajoute les contacts à la page
+  content.innerHTML += `<br><br> ${contactList}`; // Ajoute les contacts à la page
 };
 
 
@@ -108,7 +108,11 @@ const displayUserProfile = (user) => {
     <h2>Bienvenue, ${user.name} !</h2>
     <p>Email : ${user.email}</p>
     <p>ID : ${user._id}</p>
+    <button id="contact-profile">Voir vos contacts</button>
   `;
+
+  const contactButton = document.getElementById("contact-profile");
+  contactButton.addEventListener("click", fetchContacts);
 };
 
 // Formulaire de connexion
