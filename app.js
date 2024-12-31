@@ -213,6 +213,10 @@ linkLogout.addEventListener("click", async () => {
 
     if (response.ok) {
       alert("Déconnexion réussie !");
+      accessToken = null;
+      refreshToken = null;
+      updateNavbar();
+      content.innerHTML = "<h2>Vous êtes déconnecté.</h2>";
     } else {
       const data = await response.json();
       console.error("Erreur lors de la déconnexion :", data.message);
