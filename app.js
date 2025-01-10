@@ -1,4 +1,7 @@
-const BASE_URL = "https://carnet-adresses-50e2ff3ffe95.herokuapp.com"
+const BASE_URL = "https://myaddressesbook.com"
+// const BASE_URL = "http://myaddressesbook.com
+
+
 // Mets à jour si nécessaire
 
 const linkLogin = document.getElementById("link-login");
