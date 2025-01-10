@@ -15,7 +15,7 @@ let refreshToken = null;
 // Affiche ou cache les liens selon l'état d'authentification
 const updateNavbar = async () => {
   try {
-    const response = await fetch(`${BASE_URL}/api/users/me`, {
+    const response = await fetch(`${BASE_URL}/users/me`, {
       method: "GET",
       credentials: "include",
     });
@@ -55,7 +55,7 @@ const showNavbarState = (isLoggedIn, user = null) => {
 // Appelle la route `/me` pour récupérer le profil utilisateur
 const fetchUserProfile = async () => {
   try {
-    const response = await fetch(`${BASE_URL}/api/users/me`, {
+    const response = await fetch(`${BASE_URL}/users/me`, {
       method: "GET",
       credentials: "include", // Indique d'inclure les cookies dans la requête
     });
@@ -75,7 +75,7 @@ const fetchUserProfile = async () => {
 // Appelle la route `/contacts` pour récupérer les contacts de l'utilisateur
 const fetchContacts = async () => {
   try {
-    const response = await fetch(`${BASE_URL}/api/contacts`, {
+    const response = await fetch(`${BASE_URL}/contacts`, {
       method: "GET",
       credentials: "include",
     });
@@ -139,7 +139,7 @@ const showLoginForm = () => {
     const password = document.getElementById("login-password").value;
 
     try {
-      const response = await fetch(`${BASE_URL}/api/users/login`, {
+      const response = await fetch(`${BASE_URL}/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -188,7 +188,7 @@ const showRegisterForm = () => {
     const password = document.getElementById("password").value;
 
     try {
-      const response = await fetch(`${BASE_URL}/api/users/register`, {
+      const response = await fetch(`${BASE_URL}/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -211,7 +211,7 @@ const showRegisterForm = () => {
 // Gestion de la déconnexion
 linkLogout.addEventListener("click", async () => {
   try {
-    const response = await fetch(`${BASE_URL}/api/users/logout`, {
+    const response = await fetch(`${BASE_URL}/users/logout`, {
       method: "POST",
       credentials: "include", // Inclus les cookies dans la requête
     });
