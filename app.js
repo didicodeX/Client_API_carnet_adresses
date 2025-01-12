@@ -1,8 +1,5 @@
-const BASE_URL = "https://api.myaddressesbook.com"
-// const BASE_URL = "http://myaddressesbook.com
-
-
-// Mets à jour si nécessaire
+// const BASE_URL = "https://api.myaddressesbook.com" 
+const BASE_URL = "http://localhost:3000"; // ceci est l'url de l'api ou server en developpement
 
 const linkLogin = document.getElementById("link-login");
 const linkRegister = document.getElementById("link-register");
