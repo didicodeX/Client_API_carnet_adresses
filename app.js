@@ -1,5 +1,5 @@
-// const BASE_URL = "https://api.myaddressesbook.com" 
-const BASE_URL = "http://localhost:3000"; // ceci est l'url de l'api ou server en developpement
+ const BASE_URL = "https://api.myaddressesbook.com" 
+//const BASE_URL = "http://localhost:3000"; // ceci est l'url de l'api ou server en developpement
 
 const linkLogin = document.getElementById("link-login");
 const linkRegister = document.getElementById("link-register");
@@ -47,7 +47,6 @@ const showNavbarState = (isLoggedIn, user = null) => {
     content.innerHTML = "<h2>Veuillez vous connecter ou vous inscrire.</h2>";
   }
 };
-
 
 // Appelle la route `/me` pour récupérer le profil utilisateur
 const fetchUserProfile = async () => {
@@ -209,7 +208,7 @@ const showRegisterForm = () => {
 linkLogout.addEventListener("click", async () => {
   try {
     const response = await fetch(`${BASE_URL}/users/logout`, {
-      method: "POST",
+      method: "DELETE",
       credentials: "include", // Inclus les cookies dans la requête
     });
 
